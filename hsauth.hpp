@@ -48,6 +48,7 @@ namespace HSAUTH {
     public:
         std::string name;
         std::string ownerid;
+        std::string secret;
         std::string version;
         std::string apiUrl;
         std::string sessionid;
@@ -62,8 +63,8 @@ namespace HSAUTH {
 
         std::function<void(const ActiveMessage&)> on_message;
 
-        api(std::string name, std::string ownerid, std::string version, std::string apiUrl = "https://hsauth.mujahid.xyz/api/1.3/")
-            : name(name), ownerid(ownerid), version(version), apiUrl(apiUrl) {}
+        api(std::string name, std::string ownerid, std::string secret, std::string version, std::string apiUrl = "https://hsauth.mujahid.xyz/api/1.3/")
+            : name(name), ownerid(ownerid), secret(secret), version(version), apiUrl(apiUrl) {}
 
         static std::string get_hwid() {
 #ifdef _WIN32
@@ -257,6 +258,10 @@ namespace HSAUTH {
         }
 
         std::string makeRequest(const std::string& postData) {
+            if (secret.empty()) {
+                return "{\"success\":false,\"message\":\"Application secret is required\"}";
+            }
+            std::string fullPostData = postData + "&secret=" + urlEncode(secret);
 #ifdef _WIN32
             HINTERNET hInternet = InternetOpenA("HSAuth-CPP/1.0", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
             if (!hInternet) return "";
@@ -293,7 +298,7 @@ namespace HSAUTH {
             InternetSetOptionA(hRequest, INTERNET_OPTION_SECURITY_FLAGS, &secFlags, sizeof(secFlags));
 
             const char* headers = "Content-Type: application/x-www-form-urlencoded\r\n";
-            HttpSendRequestA(hRequest, headers, (DWORD)strlen(headers), (LPVOID)postData.c_str(), (DWORD)postData.length());
+            HttpSendRequestA(hRequest, headers, (DWORD)strlen(headers), (LPVOID)fullPostData.c_str(), (DWORD)fullPostData.length());
 
             std::string response;
             char buffer[4096];
