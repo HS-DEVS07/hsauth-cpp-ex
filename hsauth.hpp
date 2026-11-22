@@ -63,7 +63,7 @@ namespace HSAUTH {
 
         std::function<void(const ActiveMessage&)> on_message;
 
-        api(std::string name, std::string ownerid, std::string secret, std::string version, std::string apiUrl = "https://hsauth.mujahid.xyz/api/1.3/")
+        api(std::string name, std::string ownerid, std::string secret, std::string version, std::string apiUrl = "https://auth.hsdevs.pro/api/1.3/")
             : name(name), ownerid(ownerid), secret(secret), version(version), apiUrl(apiUrl) {}
 
         static std::string get_hwid() {
