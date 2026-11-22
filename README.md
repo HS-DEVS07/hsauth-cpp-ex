@@ -1,6 +1,6 @@
 # HS DEVS AUTH - C++ Client SDK (`hsauth.hpp`)
 
-Single-header C++ SDK for [HS DEVS AUTH](https://hsauth.mujahid.xyz).
+Single-header C++ SDK for [HS DEVS AUTH](https://auth.hsdevs.pro).
 
 ## Highlights
 - **Single Header**: Include `hsauth.hpp` and compile directly with MSVC or GCC.
