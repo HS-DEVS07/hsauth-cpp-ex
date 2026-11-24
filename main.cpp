@@ -5,7 +5,6 @@
 HSAUTH::api HSAuthApp(
     "MyApp",
     "your_app_identifier_here",
-    "your_app_secret_here",
     "1.0",
     "https://auth.hsdevs.pro/api/1.3/"
 );
